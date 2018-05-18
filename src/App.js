@@ -9,7 +9,7 @@ class App extends Component {
       { name: 'Manu' },
       { name: 'Stephanie' }
     ],
-    showPeople: false
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -23,9 +23,9 @@ class App extends Component {
   }
 
   togglePersonsHandler = () => {
-    const doesShow = this.state.showPeople;
+    const doesShow = this.state.showPersons;
     this.setState({
-      showPeople: !doesShow
+      showPersons: !doesShow
     })
   }
 
@@ -49,26 +49,28 @@ class App extends Component {
         cursor: 'pointer'
     }
 
+    let persons = null;
+
+    if ( this.state.showPersons ) {
+      persons = (
+        <div>
+          <Person name={this.state.persons[0].name}/>
+          <Person
+            name={this.state.persons[1].name}
+            click={this.switchNameHandler.bind(this, 'Maxxy!')}
+            changed={this.nameChangeHandler}
+          >
+            My hobbies include coding to change the world!
+          </Person>
+          <Person name={this.state.persons[2].name}/>
+        </div>
+      );
+    }
     return (
       <div className="App">
         <h1>Welcome to This Sample React App</h1>
-        <button
-          onClick={this.togglePersonsHandler}
-          style={style}
-        >Toggle People</button>
-        { this.state.showPeople ?
-          <div>
-            <Person name={this.state.persons[0].name}/>
-            <Person
-              name={this.state.persons[1].name}
-              click={this.switchNameHandler.bind(this, 'Maxxy!')}
-              changed={this.nameChangeHandler}
-            >
-              My hobbies include coding to change the world!
-            </Person>
-            <Person name={this.state.persons[2].name}/>
-          </div> : null 
-        }
+        <button onClick={this.togglePersonsHandler} style={style}>Toggle People</button>
+        {persons}
       </div>
     );
   }
