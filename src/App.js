@@ -12,21 +12,19 @@ class App extends Component {
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: newName },
-        { name: 'Manute' },
-        { name: 'Steffi' }
-      ]
-    });
-  }
-
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({
       showPersons: !doesShow
     })
+  }
+
+  deletePersonHandler(personIndex) {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({
+      persons: persons
+    });
   }
 
   nameChangeHandler = (event) => {
@@ -54,18 +52,15 @@ class App extends Component {
     if ( this.state.showPersons ) {
       persons = (
         <div>
-          <Person name={this.state.persons[0].name}/>
-          <Person
-            name={this.state.persons[1].name}
-            click={this.switchNameHandler.bind(this, 'Maxxy!')}
-            changed={this.nameChangeHandler}
-          >
-            My hobbies include coding to change the world!
-          </Person>
-          <Person name={this.state.persons[2].name}/>
+          { this.state.persons.map((person, index) => {
+            return <Person
+                    name={person.name}
+                    click={ () => this.deletePersonHandler(index) }/>
+          })}
         </div>
       );
     }
+
     return (
       <div className="App">
         <h1>Welcome to This Sample React App</h1>
